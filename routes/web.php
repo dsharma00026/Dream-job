@@ -20,3 +20,7 @@ Route::view('login','login')->name('login.form');
 Route::view('about','about-us')->name('about');
 Route::view('terms','terms')->name('terms');
 Route::view('contact','contact-us')->name('contact.form');
+
+
+Route::get('profile',[MainController::class,'profile']);
+Route::get('edit',[MainController::class,'editprofile'])->name('edit-profile');

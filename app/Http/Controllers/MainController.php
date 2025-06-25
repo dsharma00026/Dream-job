@@ -56,6 +56,31 @@ class MainController extends Controller
         return view('home',['jobs'=>$jobs]);
 
     } 
+    function profile(){
+      $user = [ 
+        'name' => 'Deepak Sharma',
+        'email' => 'deepak@example.com',
+        'mobile' => '9876543210',
+        'city' => 'Ludhiana'
+     ];
+      return view('profile',compact('user'));
+
+
+
+     }
+
+
+    function editprofile(){
+         $user = [
+        'name' => 'Deepak Sharma',
+        'email' => 'deepak@example.com',
+        'age' => 24,
+        'mobile' => '9876543210',
+        'city' => 'Ludhiana'
+    ];
+
+    return view('edit-profile', compact('user'));
+    }
     
     
 }
