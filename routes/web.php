@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MainController;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,3 +25,14 @@ Route::view('contact','contact-us')->name('contact.form');
 
 Route::get('profile',[MainController::class,'profile']);
 Route::get('edit',[MainController::class,'editprofile'])->name('edit-profile');
+Route::get('view/{id}',[MainController::class,'viewjob'])->name('view.job');
+
+
+//here we create route of register page
+Route::view('register','register')->name('register.form');
+Route::post('register',[MainController::class,'register'])->name('register.submit');
+
+//here we create route of login page
+Route::view('login','login')->name('login.form');
+Route::post('login',[MainController::class,'login'])->name('login.submit');
+

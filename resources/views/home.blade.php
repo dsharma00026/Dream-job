@@ -31,7 +31,7 @@
                             <p class="card-text"><strong>Company:</strong> {{ $job['company'] }}</p>
                             <p class="card-text"><strong>Location:</strong> {{ $job['location'] }}</p>
                             <p class="card-text"><strong>Salary:</strong> ₹{{ $job['salary'] }}/month</p>
-                            <a href="{{ route('home', $job['id']) }}" class="btn btn-primary hover-lift">View Details</a>
+                            <a href="{{ route('view.job', $job['id']) }}" class="btn btn-primary hover-lift">View Details</a>
                         </div>
                     </div>
                 </div>
