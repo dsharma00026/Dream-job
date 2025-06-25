@@ -46,8 +46,36 @@ class MainController extends Controller
     }
 
     //here we handle all backend related to login
-    function login(){
+    function login(Request $request){
+      if(session('user_id')){
+        return redirect()->route('home');
+
+      }else{
+
       
+      //here  we apply validation of check user input correct or not
+        $request->validate([
+            'user_email'  => 'required|email',
+            'user_password'   => 'required',
+        ]);
+
+         //get user data based on email
+          $user = Userdata::where('user_email', $request->user_email)->first();
+
+          //here we check fetch data password to user enter passwrod
+        if ($user && Hash::check($request->user_password, $user->user_password)) {
+             // ✅ Login successful
+             $request->session()->regenerate();//for prevent session attack
+             //create session
+             session(['user_name' =>$user->user_name]);
+             session(['user_id'=>$user->id]);
+             //move dashboard page
+        return redirect()->route('home');
+        } else {
+        // ❌ Email not found or password incorrect
+        return redirect()->route('login.form')->with('failed','Invalid crendentials');
+        }
+      }
     }
 
 
@@ -57,54 +85,20 @@ class MainController extends Controller
 
 
     function home(){
-         $jobs = [
-        [   
-            'id' => 1,
-            'title' => 'Software Engineer',
-            'company' => 'Tech Corp',
-            'location' => 'Mohali',
-            'salary' => 25000
-        ],
-        [
-            'id' => 2,
-            'title' => 'Web Developer',
-            'company' => 'CodeSoft',
-            'location' => 'Ludhiana',
-            'salary' => 20000
-        ],
-        [
-            'id' => 3,
-            'title' => 'UI/UX Designer',
-            'company' => 'Designify',
-            'location' => 'Amritsar',
-            'salary' => 22000
-        ],
-          [
-            'id' => 3,
-            'title' => 'UI/UX Designer',
-            'company' => 'Designify',
-            'location' => 'Amritsar',
-            'salary' => 22000
-        ],
-          [
-            'id' => 3,
-            'title' => 'UI/UX Designer',
-            'company' => 'Designify',
-            'location' => 'Amritsar',
-            'salary' => 22000
-        ],
-          [
-            'id' => 3,
-            'title' => 'UI/UX Designer',
-            'company' => 'Designify',
-            'location' => 'Amritsar',
-            'salary' => 22000
-        ],
-        ];
-
-        return view('home',['jobs'=>$jobs]);
+      //here we check user logged in or not 
+        if(session('user_id')){
+            //here we check user is logged in 
+          $jobs=[];
+          return view('home',['jobs'=>$jobs]);
+        }else{
+          //here we check user not logged in
+          return redirect()->route('login.form')->with('failed','Please login first');
+        }
 
     } 
+
+
+
     function profile(){
       $user = [ 
         'name' => 'Deepak Sharma',

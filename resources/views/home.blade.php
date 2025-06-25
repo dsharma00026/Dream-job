@@ -5,7 +5,8 @@
 <!-- 🔴 Hero Section -->
 <section style="background-color: dodgerblue; color: white; padding: 60px 0; margin-top: 0" class="text-center">
     <div class="container">
-        <h1 class="mb-4">Dream Job</h1>
+        <h3 class="mb-4">Welcome! {{session('user_name')}}</h1>
+        <h1 class="mb-4">Find your Dream Job</h1>
         <form action="" method="GET" class="row justify-content-center">
             <div class="col-md-6 mb-2">
                 <input type="text" name="search" class="form-control" placeholder="Enter job title or company">

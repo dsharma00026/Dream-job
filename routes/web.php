@@ -16,8 +16,8 @@ use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 */
 
 Route::get('/', [MainController::class, 'home'])->name('home');
-Route::view('register','register')->name('register.form');
-Route::view('login','login')->name('login.form');
+
+
 Route::view('about','about-us')->name('about');
 Route::view('terms','terms')->name('terms');
 Route::view('contact','contact-us')->name('contact.form');
@@ -33,6 +33,11 @@ Route::view('register','register')->name('register.form');
 Route::post('register',[MainController::class,'register'])->name('register.submit');
 
 //here we create route of login page
-Route::view('login','login')->name('login.form');
+Route::get('login', function () {
+    if (session('user_id')) {
+        return redirect()->route('home');
+    }
+    return view('login');
+})->name('login.form');
 Route::post('login',[MainController::class,'login'])->name('login.submit');
 

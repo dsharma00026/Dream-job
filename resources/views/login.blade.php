@@ -23,11 +23,15 @@
                     @csrf
                     <div class="mb-3">
                         <label class="form-label">Email</label>
-                        <input type="email" name="email" class="form-control hover-lift" required>
+                        <input type="text" name="user_email" class="form-control hover-lift">
+                        <span class="text-danger">@error('user_email'){{$message}}@enderror</span> 
+
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Password</label>
-                        <input type="password" name="password" class="form-control hover-lift" required>
+                        <input type="password" name="user_password" class="form-control hover-lift" >
+                       <span class="text-danger">@error('user_password'){{$message}}@enderror</span> 
+
                     </div>
                     <div class="text-center">
                         <button type="submit" class="btn btn-primary w-100 hover-lift">Login</button>
