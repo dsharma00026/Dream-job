@@ -15,4 +15,5 @@ use App\Http\Controllers\MainController;
 */
 
 Route::get('/', [MainController::class, 'home'])->name('home');
-
+Route::view('register','register')->name('register_form');
+Route::view('login','login')->name('login_form');
