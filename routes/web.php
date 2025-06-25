@@ -20,11 +20,8 @@ Route::get('/', [MainController::class, 'home'])->name('home');
 
 Route::view('about','about-us')->name('about');
 Route::view('terms','terms')->name('terms');
-Route::view('contact','contact-us')->name('contact.form');
 
 
-Route::get('profile',[MainController::class,'profile']);
-Route::get('edit',[MainController::class,'editprofile'])->name('edit-profile');
 Route::get('view/{id}',[MainController::class,'viewjob'])->name('view.job');
 
 
@@ -41,3 +38,14 @@ Route::get('login', function () {
 })->name('login.form');
 Route::post('login',[MainController::class,'login'])->name('login.submit');
 
+//here we create route of contact page 
+Route::view('contact','contact-us')->name('contact.form');
+Route::post('contact',[MainController::class,'contact'])->name('contact.submit');
+
+//here we create route of profile page and also edit profile page
+Route::get('profile',[MainController::class,'profile'])->name('profile');
+Route::get('edit',[MainController::class,'editProfile'])->name('edit.profile');
+Route::post('edit',[MainController::class,'editProfileSubmit'])->name('edit.profile.submit');
+
+//here we create route of logout feture
+Route::get('logout',[MainController::class,'logout'])->name('logout');

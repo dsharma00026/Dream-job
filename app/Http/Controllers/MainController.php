@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use  App\Models\UserData;
+use  App\Models\Contact;
+
 
 class MainController extends Controller
 {
@@ -47,12 +49,7 @@ class MainController extends Controller
 
     //here we handle all backend related to login
     function login(Request $request){
-      if(session('user_id')){
-        return redirect()->route('home');
-
-      }else{
-
-      
+  
       //here  we apply validation of check user input correct or not
         $request->validate([
             'user_email'  => 'required|email',
@@ -75,7 +72,7 @@ class MainController extends Controller
         // ❌ Email not found or password incorrect
         return redirect()->route('login.form')->with('failed','Invalid crendentials');
         }
-      }
+      
     }
 
 
@@ -84,6 +81,7 @@ class MainController extends Controller
 
 
 
+    //here we handle all backend related to home page
     function home(){
       //here we check user logged in or not 
         if(session('user_id')){
@@ -98,33 +96,109 @@ class MainController extends Controller
     } 
 
 
+    //here we handle all backend related to contact page
+    function contact(Request $request){
+        //here  we apply validation of contact from page
+        $request->validate([
+             'user_name' => 'required|string|min:03|max:20',
+             'user_email' => 'required|email',
+             'user_message'=>'required|string|min:03|max:500',//set limit of msg here
+             'user_subject' => 'required|string|min:03|max:50', //  Set limit of subject here
+         ]);
 
+         //here we store user data
+           $ContactUs = new Contact();
+          $ContactUs->user_name     = $request->user_name;
+          $ContactUs->user_email    = $request->user_email;
+          $ContactUs->user_subject  = $request->user_subject;
+          $ContactUs->user_message  = $request->user_message;
+
+         //here we save data in databse and move user froward to designation page with session message 
+        if($ContactUs->save()){
+              return redirect()->route('contact.form')->with('success', 'Thank you for contacting us. We have received your message and will get back to you soon.');
+            }else{
+              return redirect()->route('contact.form')->with('failed', 'Something went wrong! Please try again after some time');
+        }
+
+    }
+
+
+
+
+
+    //here we handle all backend related to profile page
     function profile(){
-      $user = [ 
-        'name' => 'Deepak Sharma',
-        'email' => 'deepak@example.com',
-        'mobile' => '9876543210',
-        'city' => 'Ludhiana'
-     ];
+      //check user logged in or not
+     if(session('user_id')){
+      $user=UserData::where('id',session('user_id'))->first();
       return view('profile',compact('user'));
 
+     }else{
+        return redirect()->route('login.form')->with('failed','Please login first');
+     }
+   }
 
+
+   //here we just show data into editpage
+   function editProfile(){
+     //check user logged in or not
+     if(session('user_id')){
+      $user=UserData::where('id',session('user_id'))->first();
+      return view('edit-profile',compact('user'));
+
+     }else{
+        return redirect()->route('login.form')->with('failed','Please login first');
+     }
+
+    }
+   //here we handle all backend of user update pages
+    function editProfileSubmit(Request $request){
+      //check user logged in or not
+     if(session('user_id')){
+      $request->validate([
+        'user_name'     => 'required|string|min:3|max:50',
+        'user_age'      => 'required|digits:2|numeric',
+        'user_mobile'   => 'required|digits:10|numeric',
+        'user_city'     => 'required|string',
+        'user_about'    => 'required|string|min:10|max:500'
+      ]);
+      // Fetch user
+      $user = UserData::find(session('user_id'));
+
+      // Update values
+      $user->user_name   = $request->user_name;
+      $user->user_age    = $request->user_age;
+      $user->user_mobile = $request->user_mobile;
+      $user->user_city   = $request->user_city;
+      $user->user_about  = $request->user_about;
+
+      // Save to database
+      if($user->save()){
+     return redirect()->route('profile')->with('success', 'Profile updated successfully!');
+
+     }else{
+     return redirect()->route('profile')->with('failed', 'Profile Not updated');
 
      }
 
 
-    function editprofile(){
-         $user = [
-        'name' => 'Deepak Sharma',
-        'email' => 'deepak@example.com',
-        'age' => 24,
-        'mobile' => '9876543210',
-        'city' => 'Ludhiana'
-    ];
 
-    return view('edit-profile', compact('user'));
+     }else{
+        return redirect()->route('login.form')->with('failed','Please login first');
+     }
+
+    
+
     }
     
+
+    //logout functonality
+    function logout(Request $request){
+      // Remove all session data
+     $request->session()->flush();
+     // Redirect to login or home
+     return redirect()->route('login.form')->with('success', 'You have been logged out.');
+     }
 
     function viewjob($id){
        $job = [

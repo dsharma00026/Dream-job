@@ -17,27 +17,45 @@
 
             <!-- 🔽 Form -->
             <div class="col-md-6 mb-4">
-                <form action="" method="POST" class="bg-white p-4 shadow rounded">
+                <form action="{{route('contact.submit')}}" method="POST" class="bg-white p-4 shadow rounded">
                     @csrf
                     <div class="mb-3">
                         <label class="form-label">Your Name</label>
-                        <input type="text" name="name" class="form-control hover-lift" required>
+                        <input type="text" name="user_name" class="form-control hover-lift" value="{{old('user_name')}}">
+                        <span class="text-danger">@error('user_name'){{$message}}@enderror</span> 
+
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Your Email</label>
-                        <input type="email" name="email" class="form-control hover-lift" required>
+                        <input type="text" name="user_email" class="form-control hover-lift" value="{{old('user_email')}}">
+                        <span class="text-danger">@error('user_email'){{$message}}@enderror</span> 
+  
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Subject</label>
-                        <input type="text" name="subject" class="form-control hover-lift" required>
+                        <input type="text" name="user_subject" class="form-control hover-lift" value="{{old('user_subject')}}">
+                        <span class="text-danger">@error('user_subject'){{$message}}@enderror</span> 
+
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Your Message</label>
-                        <textarea name="message" rows="5" class="form-control hover-lift" required></textarea>
+                        <textarea name="user_message" rows="5" class="form-control hover-lift">{{old('user_message')}}</textarea>
+                        <span class="text-danger">@error('user_message'){{$message}}@enderror</span> 
+
                     </div>
                     <div class="text-center">
                         <button type="submit" class="btn btn-primary hover-lift">Send Message</button>
                     </div>
+                      @if(session('success'))
+                      <div class="alert alert-success">
+                          {{ session('success') }}
+                     </div>
+                    @endif
+                    @if(session('failed'))
+                      <div class="alert alert-danger">
+                          {{ session('failed') }}
+                     </div>
+                    @endif
                 </form>
             </div>
 
