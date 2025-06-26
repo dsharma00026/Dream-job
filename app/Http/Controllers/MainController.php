@@ -8,7 +8,7 @@ use  App\Models\UserData;
 use  App\Models\Contact;
 use  App\Models\Job;
 use App\Models\Application;
-
+use PhpParser\Node\Stmt\Return_;
 
 class MainController extends Controller
 {
@@ -247,4 +247,18 @@ class MainController extends Controller
 
     }
     
+    //here we handle all backend ralated to my job 
+    function myjob(){
+      //first get all job id from application table where current user applied it
+      $application = Application::where('user_id', session('user_id'))
+               ->with('job') // eager load job details
+               ->get();
+
+      //now just show data in view
+      Return view('myjob',compact('application'));
+
+
+
+
+    }
 }

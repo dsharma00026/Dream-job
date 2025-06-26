@@ -52,3 +52,6 @@ Route::get('logout',[MainController::class,'logout'])->name('logout');
 
 //here we create route for apply job
 Route::post('applyjob',[MainController::class,'applyJob'])->name('apply.job');
+
+//here we craete route for myjob page
+Route::get('myjob',[MainController::class,'myjob'])->name('my.job');

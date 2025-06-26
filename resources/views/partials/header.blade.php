@@ -10,6 +10,9 @@
         @if(session('user_id'))
         <li class="nav-item"><a class="nav-link text-white hover-lift" href="/profile">Profile</a></li>
         @endif
+        @if(session('user_id'))
+        <li class="nav-item"><a class="nav-link text-white hover-lift" href="{{ route('my.job') }}">My Jobs</a></li>
+        @endif
         <li class="nav-item"><a class="nav-link text-white hover-lift" href="/terms">Terms</a></li>
         <li class="nav-item"><a class="nav-link text-white hover-lift" href="/about">About</a></li>
         <li class="nav-item"><a class="nav-link text-white hover-lift" href="/contact">Contact</a></li>

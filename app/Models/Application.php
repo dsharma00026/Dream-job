@@ -20,5 +20,10 @@ class Application extends Model
     FOREIGN KEY (job_id) REFERENCES jobs(job_id) ON DELETE CASCADE
 );*/
  protected $table='applications';
+
+ public function job()
+{
+    return $this->belongsTo(Job::class, 'job_id', 'job_id');
+}
     use HasFactory;
 }

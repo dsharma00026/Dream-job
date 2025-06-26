@@ -18,5 +18,10 @@ class Job extends Model
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );*/
 protected $table='jobs';
+
+public function job()
+{
+    return $this->belongsTo(Job::class, 'job_id', 'job_id');
+}
     use HasFactory;
 }
