@@ -32,27 +32,40 @@
             <!-- 📝 Apply Form -->
             <div class="col-md-6">
                 <div class="bg-white shadow p-4 rounded">
-                    <form action="" method="POST" enctype="multipart/form-data">
+                    <form action="{{route('apply.job')}}" method="POST" enctype="multipart/form-data">
                         @csrf
+                        <!-- here we check flash session and show -->
+                    @if(session('success'))
+                      <div class="alert alert-success">
+                          {{ session('success') }}
+                     </div>
+                    @endif
+                    @if(session('failed'))
+                      <div class="alert alert-danger">
+                          {{ session('failed') }}
+                     </div>
+                    @endif
+
                         <div class="mb-3">
                             <label class="form-label">Your Name</label>
-                            <input type="text" name="name" class="form-control hover-lift" required>
+                            <input type="text" name="name" class="form-control hover-lift" value="{{$user->user_name}}" disabled>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Mobile</label>
-                            <input type="text" name="mobile" class="form-control hover-lift" required>
+                            <input type="text" name="mobile" class="form-control hover-lift" value="{{$user->user_mobile}}" disabled>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">City</label>
-                            <input type="text" name="city" class="form-control hover-lift" required>
+                            <input type="text" name="city" class="form-control hover-lift" value="{{$user->user_city}}" disabled>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Resume (PDF/DOC)</label>
-                            <input type="file" name="resume" class="form-control hover-lift" required>
+                            <input type="file" name="user_resume" class="form-control hover-lift" >
+                            <span class="text-danger">@error('user_resume'){{$message}}@enderror</span>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Message</label>
-                            <textarea name="message" rows="4" class="form-control hover-lift" placeholder="Write a short message..." required></textarea>
+                            <textarea name="message" rows="4" class="form-control hover-lift" disabled>{{$user->user_about}}</textarea>
                         </div>
                         <div class="text-center">
                             <button type="submit" class="btn btn-primary hover-lift">Apply Now</button>

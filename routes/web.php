@@ -49,3 +49,6 @@ Route::post('edit',[MainController::class,'editProfileSubmit'])->name('edit.prof
 
 //here we create route of logout feture
 Route::get('logout',[MainController::class,'logout'])->name('logout');
+
+//here we create route for apply job
+Route::post('applyjob',[MainController::class,'applyJob'])->name('apply.job');

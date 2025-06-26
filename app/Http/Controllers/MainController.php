@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use  App\Models\UserData;
 use  App\Models\Contact;
 use  App\Models\Job;
+use App\Models\Application;
 
 
 class MainController extends Controller
@@ -62,7 +63,7 @@ class MainController extends Controller
 
           //here we check fetch data password to user enter passwrod
         if ($user && Hash::check($request->user_password, $user->user_password)) {
-             // ✅ Login successful
+             //  Login successful
              $request->session()->regenerate();//for prevent session attack
              //create session
              session(['user_name' =>$user->user_name]);
@@ -70,7 +71,7 @@ class MainController extends Controller
              //move dashboard page
         return redirect()->route('home');
         } else {
-        // ❌ Email not found or password incorrect
+        //  Email not found or password incorrect
         return redirect()->route('login.form')->with('failed','Invalid crendentials');
         }
       
@@ -199,22 +200,51 @@ class MainController extends Controller
      $request->session()->flush();
      // Redirect to login or home
      return redirect()->route('login.form')->with('success', 'You have been logged out.');
-     }
+   }
 
     
     
+     //here we hanle all backend related to show job details
      function viewjob($id){
       if(session('user_id')){
-        $job=Job::where('job_id',$id)->first();  
-        return view('view-details', compact('job'));
-
-
+        session(['job_id'=>$id]);
+        $job=Job::where('job_id',$id)->first(); 
+        $user=UserData::where('id',session('user_id'))->first(); 
+        return view('view-details', compact('job','user'));
       }else{
          return redirect()->route('login.form')->with('failed', 'Please log in first!');
       }
 
   
     
+    }
+
+    //here we handle all backend of appy job feature
+    function applyJob(Request $request){
+      //apply validation on resume field
+      $request->validate([
+        'user_resume' => 'required|mimes:pdf,doc,docx,jpg,jpeg,png|max:10240', // max 10MB
+
+      ]);
+      // Store uploaded resume
+      $resumePath = $request->file('user_resume')->store('resumes', 'public');
+
+      $application=new Application();
+      $application->job_id=session('job_id');
+      $application->user_id=session('user_id');
+      $application->resume=$resumePath;
+
+         //  Save and redirect
+     if ($application->save()) {
+        return redirect()->route('view.job', ['id' => session('job_id')])
+                         ->with('success', 'We got your application! We’ll reach out soon.');
+      } else {
+        return redirect()->route('view.job', ['id' => session('job_id')])
+                         ->with('failed', 'Something went wrong. Please try again.');
+      }
+
+
+
     }
     
 }
