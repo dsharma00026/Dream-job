@@ -18,14 +18,14 @@
             <!-- 📄 Job Details -->
             <div class="col-md-6">
                 <div class="bg-white shadow p-4 rounded">
-                    <h3 style="color: #1E90FF;">{{ $job['title'] ?? 'Software Engineer' }}</h3>
-                    <p><strong>Company:</strong> {{ $job['company'] ?? 'Tech Corp' }}</p>
-                    <p><strong>Location:</strong> {{ $job['location'] ?? 'Mohali' }}</p>
-                    <p><strong>Salary:</strong> ₹{{ $job['salary'] ?? '25000' }}/month</p>
-                    <p><strong>Posted on:</strong> {{ $job['posted_on'] ?? '26/06/2025' }}</p>
+                    <h3 style="color: #1E90FF;">{{ $job->job_name}}</h3>
+                    <p><strong>Company:</strong> {{ $job->company_name}}</p>
+                    <p><strong>Location:</strong> {{ $job->job_location }}</p>
+                    <p><strong>Salary:</strong> ₹{{ $job->job_salary}}/month</p>
+                    <p><strong>Posted on:</strong> {{ $job->created_at }}</p>
                     <hr>
                     <h5>Description:</h5>
-                    <p>{{ $job['description'] ?? 'We are hiring a skilled software engineer with experience in Laravel, PHP, and front-end technologies. Collaborate with a team to develop scalable web applications.' }}</p>
+                    <p>{{ $job->description}}</p>
                 </div>
             </div>
 

@@ -204,17 +204,17 @@ class MainController extends Controller
     
     
      function viewjob($id){
-       $job = [
-        'id' => $id,
-        'title' => 'Software Engineer',
-        'company' => 'Tech Corp',
-        'location' => 'Mohali',
-        'salary' => 25000,
-        'posted_on' => '26/06/2025',
-        'description' => 'We are hiring a skilled software engineer...'
-    ];
+      if(session('user_id')){
+        $job=Job::where('job_id',$id)->first();  
+        return view('view-details', compact('job'));
 
-    return view('view-details', compact('job'));
+
+      }else{
+         return redirect()->route('login.form')->with('failed', 'Please log in first!');
+      }
+
+  
+    
     }
     
 }
