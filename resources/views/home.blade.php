@@ -28,11 +28,11 @@
                 <div class="col-md-4 mb-4 hover-lift">
                     <div class="card shadow-sm h-100">
                         <div class="card-body">
-                            <h5 class="card-title">{{ $job['title']}}</h5>
-                            <p class="card-text"><strong>Company:</strong> {{ $job['company'] }}</p>
-                            <p class="card-text"><strong>Location:</strong> {{ $job['location'] }}</p>
-                            <p class="card-text"><strong>Salary:</strong> ₹{{ $job['salary'] }}/month</p>
-                            <a href="{{ route('view.job', $job['id']) }}" class="btn btn-primary hover-lift">View Details</a>
+                            <h5 class="card-title">{{ $job->job_name}}</h5>
+                            <p class="card-text"><strong>Company:</strong> {{ $job->company_name}}</p>
+                            <p class="card-text"><strong>Location:</strong> {{ $job->job_location}}</p>
+                            <p class="card-text"><strong>Salary:</strong> {{ $job->job_salary}}/month</p>
+                            <a href="{{ route('view.job', $job->job_id) }}" class="btn btn-primary hover-lift">View Details</a>
                         </div>
                     </div>
                 </div>

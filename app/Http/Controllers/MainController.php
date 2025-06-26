@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use  App\Models\UserData;
 use  App\Models\Contact;
+use  App\Models\Job;
 
 
 class MainController extends Controller
@@ -85,9 +86,9 @@ class MainController extends Controller
     function home(){
       //here we check user logged in or not 
         if(session('user_id')){
-            //here we check user is logged in 
-          $jobs=[];
-          return view('home',['jobs'=>$jobs]);
+            //here we fetch all job from database
+            $jobs=job::all();
+          return view('home',compact('jobs'));
         }else{
           //here we check user not logged in
           return redirect()->route('login.form')->with('failed','Please login first');
@@ -200,7 +201,9 @@ class MainController extends Controller
      return redirect()->route('login.form')->with('success', 'You have been logged out.');
      }
 
-    function viewjob($id){
+    
+    
+     function viewjob($id){
        $job = [
         'id' => $id,
         'title' => 'Software Engineer',
