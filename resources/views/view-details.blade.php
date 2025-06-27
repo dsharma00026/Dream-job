@@ -34,15 +34,24 @@
                 <div class="bg-white shadow p-4 rounded">
                     <form action="{{route('apply.job')}}" method="POST" enctype="multipart/form-data">
                         @csrf
-                        <!-- here we check flash session and show -->
-                    @if(session('success'))
+                        
+                        <!-- check user already apply or not -->
+                     @if($check=="1")
                       <div class="alert alert-success">
-                          {{ session('success') }}
+                          <p>you already applied in this job</p>
+                     </div> 
+                     @endif  
+                     
+                     <!-- here we check flash session and show -->
+  
+                    @if(session('apply.success'))
+                      <div class="alert alert-success">
+                          {{ session('apply.success') }}
                      </div>
                     @endif
-                    @if(session('failed'))
+                    @if(session('apply.failed'))
                       <div class="alert alert-danger">
-                          {{ session('failed') }}
+                          {{ session('apply.failed') }}
                      </div>
                     @endif
 
@@ -67,9 +76,15 @@
                             <label class="form-label">Message</label>
                             <textarea name="message" rows="4" class="form-control hover-lift" disabled>{{$user->user_about}}</textarea>
                         </div>
+                        @if(session('apply.success')||$check=="1")
                         <div class="text-center">
-                            <button type="submit" class="btn btn-primary hover-lift">Apply Now</button>
+                            <button type="submit" class="btn btn-primary hover-lift" disabled>Already Apply</button>
                         </div>
+                        @elseif($check=="0")
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary hover-lift">Apply</button>
+                        </div>
+                        @endif
                     </form>
                 </div>
             </div>

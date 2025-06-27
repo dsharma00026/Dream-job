@@ -21,6 +21,7 @@ class Application extends Model
 );*/
  protected $table='applications';
 
+ //creat funciton for relationship 
  public function job()
 {
     return $this->belongsTo(Job::class, 'job_id', 'job_id');

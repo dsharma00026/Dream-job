@@ -19,9 +19,6 @@ class Job extends Model
 );*/
 protected $table='jobs';
 
-public function job()
-{
-    return $this->belongsTo(Job::class, 'job_id', 'job_id');
-}
+
     use HasFactory;
 }

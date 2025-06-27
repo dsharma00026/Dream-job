@@ -87,8 +87,16 @@ class MainController extends Controller
     function home(){
       //here we check user logged in or not 
         if(session('user_id')){
-            //here we fetch all job from database
-            $jobs=job::all();
+            //here we fetch all job from database but only those job where use not apply
+
+            //here we ftech only job id where user already apply from application table
+            $appliedJobIds = Application::where('user_id', session('user_id'))
+                    ->pluck('job_id');
+
+           //here we fetch only job where user not apply using wherenotin in sql
+            $jobs = Job::whereNotIn('job_id', $appliedJobIds)->get(); 
+            
+            //data return to view
           return view('home',compact('jobs'));
         }else{
           //here we check user not logged in
@@ -210,7 +218,18 @@ class MainController extends Controller
         session(['job_id'=>$id]);
         $job=Job::where('job_id',$id)->first(); 
         $user=UserData::where('id',session('user_id'))->first(); 
-        return view('view-details', compact('job','user'));
+
+        //here we check user already apply or not in job 
+        //  Check if usern already applied
+        $alreadyApplied = Application::where('job_id', session('job_id'))->where('user_id', session('user_id'))->exists();
+        //if user already apply so just so into view 
+        if ($alreadyApplied) {
+          $check="1";//store variable for check in view file for user apply or not 1 for true
+        return view('view-details', compact('job','user','check'));
+        }else{
+          $check="0";//store variable for check in view file for user apply or not 0 for false
+         return view('view-details', compact('job','user','check'));
+        }
       }else{
          return redirect()->route('login.form')->with('failed', 'Please log in first!');
       }
@@ -221,6 +240,7 @@ class MainController extends Controller
 
     //here we handle all backend of appy job feature
     function applyJob(Request $request){
+    
       //apply validation on resume field
       $request->validate([
         'user_resume' => 'required|mimes:pdf,doc,docx,jpg,jpeg,png|max:10240', // max 10MB
@@ -237,10 +257,10 @@ class MainController extends Controller
          //  Save and redirect
      if ($application->save()) {
         return redirect()->route('view.job', ['id' => session('job_id')])
-                         ->with('success', 'We got your application! We’ll reach out soon.');
+                         ->with('apply.success', 'We got your application! We’ll reach out soon.');
       } else {
         return redirect()->route('view.job', ['id' => session('job_id')])
-                         ->with('failed', 'Something went wrong. Please try again.');
+                         ->with('apply.failed', 'Something went wrong. Please try again.');
       }
 
 
