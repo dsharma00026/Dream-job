@@ -64,7 +64,7 @@
                         <a href="{{route('edit.profile')}}" class="btn btn-outline-primary hover-lift">Edit Profile</a>
                         <form action="{{route('logout')}}" method="get">
                             @csrf
-                            <button type="submit" class="btn btn-danger hover-lift">Sign Out</button>
+                            <button type="submit" class="btn btn-outline-danger hover-lift">Sign Out</button>
                         </form>
                     </div>
                 </div>

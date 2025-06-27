@@ -8,7 +8,7 @@
             <div class="col-md-6">
                  <!-- here we check flash session and show -->
                     @if(session('failed'))
-                      <div class="alert alert-success">
+                      <div class="alert alert-danger">
                           {{ session('failed') }}
                      </div>
                     @endif
@@ -57,7 +57,7 @@
 
                     </div>
                     <div class="text-center">
-                        <button type="submit" class="btn btn-primary hover-lift w-100">Register</button>
+                        <button type="submit" class="btn btn-outline-primary hover-lift w-100">Register</button>
                     </div>
                       <p class="mt-3 mt-0" >Already have an account?<a href="{{route('login.form')}}">Login here</a></p>
 

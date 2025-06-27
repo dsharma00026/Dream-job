@@ -17,6 +17,16 @@
 
             <!-- 🔽 Form -->
             <div class="col-md-6 mb-4">
+                  @if(session('success'))
+                      <div class="alert alert-success">
+                          {{ session('success') }}
+                     </div>
+                    @endif
+                    @if(session('failed'))
+                      <div class="alert alert-danger">
+                          {{ session('failed') }}
+                     </div>
+                    @endif
                 <form action="{{route('contact.submit')}}" method="POST" class="bg-white p-4 shadow rounded">
                     @csrf
                     <div class="mb-3">
@@ -44,18 +54,9 @@
 
                     </div>
                     <div class="text-center">
-                        <button type="submit" class="btn btn-primary hover-lift">Send Message</button>
+                        <button type="submit" class="btn btn-outline-primary hover-lift">Send Message</button>
                     </div>
-                      @if(session('success'))
-                      <div class="alert alert-success">
-                          {{ session('success') }}
-                     </div>
-                    @endif
-                    @if(session('failed'))
-                      <div class="alert alert-danger">
-                          {{ session('failed') }}
-                     </div>
-                    @endif
+                    
                 </form>
             </div>
 

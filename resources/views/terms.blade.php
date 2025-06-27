@@ -26,7 +26,7 @@
         <p>All job posts, logos, and trademarks belong to their respective owners. You may not copy, distribute, or reuse content without permission.</p>
 
         <h3 style="color: #1E90FF;">5. Privacy Policy</h3>
-        <p>Your privacy is important to us. Please refer to our <a href="/privacy" style="color: #1E90FF;">Privacy Policy</a> to understand how we collect and use your data.</p>
+        <p>Your privacy is important to us. Please refer to our Privacy policy to understand how we collect and use your data.</p>
 
         <h3 style="color: #1E90FF;">6. Disclaimer</h3>
         <p>We do not guarantee job placement or hiring results. All information on this site is provided “as is” without warranty.</p>
@@ -35,7 +35,7 @@
         <p>Dream Job reserves the right to change or modify these terms at any time. Continued use of the site constitutes acceptance of updated terms.</p>
 
         <h3 style="color: #1E90FF;">8. Contact Us</h3>
-        <p>If you have questions about these Terms & Conditions, please contact us via our <a href="/contact" style="color: #1E90FF;">Contact Page</a>.</p>
+        <p>If you have questions about these Terms & Conditions, please contact us via our <a href="{{route('contact.form')}}" style="color: #1E90FF;">Contact Page</a>.</p>
     </div>
 </section>
 
@@ -43,7 +43,7 @@
 <section class="py-4 text-center" style="background-color: #f4f9ff;">
     <div class="container">
         <h5>Thank you for trusting Dream Job — your career journey starts here.</h5>
-        <a href="/" class="btn btn-primary mt-3 hover-lift">Back to Home</a>
+        <a href="{{route('home')}}" class="btn btn-outline-primary mt-3 hover-lift">Back to Home</a>
     </div>
 </section>
 

@@ -34,7 +34,7 @@
 
                     </div>
                     <div class="text-center">
-                        <button type="submit" class="btn btn-primary w-100 hover-lift">Login</button>
+                        <button type="submit" class="btn btn-outline-primary w-100 hover-lift">Login</button>
                     </div>
                     <p class="mt-3 mb-0 ">Don't have a account?<a href="{{route('register.form')}}">Register here</a></p>  
                 </form>

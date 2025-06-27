@@ -78,11 +78,11 @@
                         </div>
                         @if(session('apply.success')||$check=="1")
                         <div class="text-center">
-                            <button type="submit" class="btn btn-primary hover-lift" disabled>Already Apply</button>
+                            <button type="submit" class="btn btn-outline-primary hover-lift" disabled>Already Apply</button>
                         </div>
                         @elseif($check=="0")
                         <div class="text-center">
-                            <button type="submit" class="btn btn-primary hover-lift">Apply</button>
+                            <button type="submit" class="btn btn-outline-primary hover-lift">Apply</button>
                         </div>
                         @endif
                     </form>

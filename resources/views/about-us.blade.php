@@ -61,7 +61,7 @@
     <div class="container">
         <h3>Ready to take the next step?</h3>
         <p>Start browsing hundreds of job openings from top companies today.</p>
-        <a href="/" class="btn btn-light mt-2 hover-lift">Browse Jobs</a>
+        <a href="{{route('home')}}" class="btn btn-light mt-2 hover-lift">Browse Jobs</a>
     </div>
 </section>
 
