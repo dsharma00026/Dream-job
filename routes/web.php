@@ -14,16 +14,10 @@ use App\Http\Controllers\MainController;
 |
 */
 
+//here all route group which he connect with controller with middleware
+Route::middleware('checkUser')->controller(MainController::class)->group(function () {
 
-Route::controller(MainController::class)->group(function () {
-    //here all routes related to register
-    Route::post('register','register')->name('register.submit');
-
-
-    //here all routes related to login
-    Route::post('login','login')->name('login.submit');
-
-    //here all routed related to home
+   //here all routed related to home
     Route::get('/','home')->name('home');
 
     //here all routes related to job
@@ -37,11 +31,22 @@ Route::controller(MainController::class)->group(function () {
     Route::get('edit','editProfile')->name('edit.profile');//show user data but in form so user can update it
     Route::post('edit','editProfileSubmit')->name('edit.profile.submit');//for update user profile data
     
-    //here all routes related to logout and contact  page
-    Route::post('contact','contact')->name('contact.submit');//for submit contact form
-
     Route::get('logout','logout')->name('logout');//for logout user
 
+});
+
+
+//here all route group which he connect with controller without middleware
+Route::controller(MainController::class)->group(function () {
+    
+    //here all routes related to register
+    Route::post('register','register')->name('register.submit');
+
+    //here all routes related to login
+    Route::post('login','login')->name('login.submit');
+
+    //here all routes related to logout and contact  page
+    Route::post('contact','contact')->name('contact.submit');//for submit contact form
 
     
 });
@@ -53,8 +58,6 @@ Route::controller(MainController::class)->group(function () {
     Route::view('contact','contact-us')->name('contact.form');//show only  contact form page
     Route::view('about','about-us')->name('about');//show only about page
     Route::view('terms','terms')->name('terms');//show only terms page
-
-
 
 
 
