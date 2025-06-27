@@ -38,7 +38,7 @@ Route::middleware('checkUser')->controller(MainController::class)->group(functio
 
 //here all route group which he connect with controller without middleware
 Route::controller(MainController::class)->group(function () {
-    
+
     //here all routes related to register
     Route::post('register','register')->name('register.submit');
 
@@ -53,8 +53,12 @@ Route::controller(MainController::class)->group(function () {
 
     //other routed for static page or which  not use any functin in controller
 
-    Route::view('register','register')->name('register.form');//show only register form page
-    Route::view('login','login')->name('login.form');//show only login  form page
+    //route with middlewate for check if user logged in so login and register page not show
+    Route::middleware('checkUser2')->controller(MainController::class)->group(function () {
+    Route::view('login', 'login')->name('login.form');//show login form
+    Route::view('register', 'register')->name('register.form');//show register form
+});
+   
     Route::view('contact','contact-us')->name('contact.form');//show only  contact form page
     Route::view('about','about-us')->name('about');//show only about page
     Route::view('terms','terms')->name('terms');//show only terms page

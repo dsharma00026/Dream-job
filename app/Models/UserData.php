@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserData extends Model
 {
+        use HasFactory;
+
     /*our table structure
     
     CREATE TABLE userdata (
@@ -26,5 +28,4 @@ class UserData extends Model
 
     //here we define table name manumally
     protected $table='userdata';
-    use HasFactory;
 }

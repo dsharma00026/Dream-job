@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Job extends Model
 {
+        use HasFactory;
+
     /*CREATE TABLE jobs (
     job_id INT AUTO_INCREMENT PRIMARY KEY,
     job_name VARCHAR(255) NOT NULL,
@@ -20,5 +22,4 @@ class Job extends Model
 protected $table='jobs';
 
 
-    use HasFactory;
 }

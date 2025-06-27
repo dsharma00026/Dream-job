@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Application extends Model
 {
+    use HasFactory;
+
     /*
     CREATE TABLE applications (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -26,5 +28,5 @@ class Application extends Model
 {
     return $this->belongsTo(Job::class, 'job_id', 'job_id');
 }
-    use HasFactory;
+    
 }

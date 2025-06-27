@@ -8,8 +8,7 @@ use  App\Models\UserData;
 use  App\Models\Contact;
 use  App\Models\Job;
 use App\Models\Application;
-use Illuminate\Support\Facades\Redis;
-use PhpParser\Node\Stmt\Return_;
+
 
 class MainController extends Controller
 {
@@ -79,40 +78,35 @@ class MainController extends Controller
     }
 
 
-    //here we handle all backend related to home page
+    //here we handle all backend related to home page*
     function home(){
-      //here we check user logged in or not 
-        if(session('user_id')){
-            //here we fetch all job from database but only those job where use not apply
+      //we already apply middleware so no need to check user logged in or not
+      
+       //here we fetch all job from database but only those job where use not apply
 
-            //here we ftech only job id where user already apply from application table
-            $appliedJobIds = Application::where('user_id', session('user_id'))
-                    ->pluck('job_id');
+       //here we ftech only job id where user already apply from application table
+       $appliedJobIds = Application::where('user_id', session('user_id'))->pluck('job_id');
 
-           //here we fetch only job where user not apply using wherenotin in sql
-            $jobs = Job::whereNotIn('job_id', $appliedJobIds)->get(); 
+       //here we fetch only job where user not apply using wherenotin in sql
+       $jobs = Job::whereNotIn('job_id', $appliedJobIds)->get(); 
             
-            //data return to view
-          return view('home',compact('jobs'));
-        }else{
-          //here we check user not logged in
-          return redirect()->route('login.form')->with('failed','Please login first');
-        }
-
+       //data return to view
+       return view('home',compact('jobs'));
+      
     } 
 
+    //here we handle all backend related to user search job
     function searchjob(Request $request){
+      //we already apply middleware so no need to check user logged in or not
 
-      if(session('user_id')){
-        $search=$request->user_search;
+
+      //get search value from user
+       $search=$request->user_search;
+       //check search value availble in db or not
        $jobs = Job::where('job_name', 'like', "%$search%")->orWhere('company_name', 'like', "%$search%")->get();
 
-    return view('home', compact('jobs'));
-
-      }else{
-          //here we check user not logged in
-          return redirect()->route('login.form')->with('failed','Please login first');
-      }
+       //return view with data even data is empty
+       return view('home', compact('jobs'));
     }
 
     //here we handle all backend related to contact page
@@ -147,33 +141,29 @@ class MainController extends Controller
 
     //here we handle all backend related to profile page
     function profile(){
-      //check user logged in or not
-     if(session('user_id')){
-      $user=UserData::where('id',session('user_id'))->first();
-      return view('profile',compact('user'));
+      //we already apply middleware so no need to check user logged in or not
 
-     }else{
-        return redirect()->route('login.form')->with('failed','Please login first');
-     }
+      //get user data from db 
+      $user=UserData::where('id',session('user_id'))->first();
+      //pass data into view
+      return view('profile',compact('user'));
    }
 
 
    //here we just show data into editpage
    function editProfile(){
-     //check user logged in or not
-     if(session('user_id')){
-      $user=UserData::where('id',session('user_id'))->first();
-      return view('edit-profile',compact('user'));
+      //we already apply middleware so no need to check user logged in or not
 
-     }else{
-        return redirect()->route('login.form')->with('failed','Please login first');
-     }
+      //get user data from db
+      $user=UserData::where('id',session('user_id'))->first();
+      //pass data into view
+      return view('edit-profile',compact('user'));
 
     }
    //here we handle all backend of user update pages
     function editProfileSubmit(Request $request){
-      //check user logged in or not
-     if(session('user_id')){
+      //we already apply middleware so no need to check user logged in or not
+
       $request->validate([
         'user_name'     => 'required|string|min:3|max:50',
         'user_age'      => 'required|digits:2|numeric',
@@ -193,28 +183,20 @@ class MainController extends Controller
 
       // Save to database
       if($user->save()){
-     return redirect()->route('profile')->with('success', 'Profile updated successfully!');
+     return redirect()->route('profile')->with('success', 'Profile updated successfully!');//when data save
 
      }else{
-     return redirect()->route('profile')->with('failed', 'Profile Not updated');
-
+     return redirect()->route('profile')->with('failed', 'Profile Not updated');//when data not save
      }
-
-
-
-     }else{
-        return redirect()->route('login.form')->with('failed','Please login first');
-     }
-
-    
+     
 
     }
     
 
     //logout functonality
     function logout(Request $request){
-      // Remove all session data
-     $request->session()->flush();
+     $request->session()->invalidate();  //  clears session
+     $request->session()->regenerateToken(); //  prevents reuse
      // Redirect to login or home
      return redirect()->route('login.form')->with('success', 'You have been logged out.');
    }
@@ -223,10 +205,14 @@ class MainController extends Controller
     
      //here we hanle all backend related to show job details
      function viewjob($id){
-      if(session('user_id')){
-        session(['job_id'=>$id]);
-        $job=Job::where('job_id',$id)->first(); 
-        $user=UserData::where('id',session('user_id'))->first(); 
+      //we already apply middleware so no need to check user logged in or not
+
+      //here we store job id into session for if user apply job so its use
+      session(['job_id'=>$id]);
+      //get job details from fb
+      $job=Job::where('job_id',$id)->first();
+      //here we get user data from db  
+      $user=UserData::where('id',session('user_id'))->first(); 
 
         //here we check user already apply or not in job 
         //  Check if usern already applied
@@ -234,17 +220,13 @@ class MainController extends Controller
         //if user already apply so just so into view 
         if ($alreadyApplied) {
           $check="1";//store variable for check in view file for user apply or not 1 for true
-        return view('view-details', compact('job','user','check'));
+        return view('view-details', compact('job','user','check'));//pass job and user details and also check 
         }else{
           $check="0";//store variable for check in view file for user apply or not 0 for false
-         return view('view-details', compact('job','user','check'));
+         return view('view-details', compact('job','user','check'));//pass job and user details and also check
         }
-      }else{
-         return redirect()->route('login.form')->with('failed', 'Please log in first!');
       }
 
-  
-    
     }
 
     //here we handle all backend of appy job feature
@@ -258,6 +240,7 @@ class MainController extends Controller
       // Store uploaded resume
       $resumePath = $request->file('user_resume')->store('resumes', 'public');
 
+      //here we store user apply job application into db
       $application=new Application();
       $application->job_id=session('job_id');
       $application->user_id=session('user_id');
@@ -265,11 +248,9 @@ class MainController extends Controller
 
          //  Save and redirect
      if ($application->save()) {
-        return redirect()->route('view.job', ['id' => session('job_id')])
-                         ->with('apply.success', 'We got your application! We’ll reach out soon.');
+        return redirect()->route('view.job', ['id' => session('job_id')])->with('apply.success', 'We got your application! We’ll reach out soon.');
       } else {
-        return redirect()->route('view.job', ['id' => session('job_id')])
-                         ->with('apply.failed', 'Something went wrong. Please try again.');
+        return redirect()->route('view.job', ['id' => session('job_id')])->with('apply.failed', 'Something went wrong. Please try again.');
       }
 
 
@@ -278,16 +259,13 @@ class MainController extends Controller
     
     //here we handle all backend ralated to my job 
     function myjob(){
+       //we already apply middleware so no need to check user logged in or not
+
       //first get all job id from application table where current user applied it
-      $application = Application::where('user_id', session('user_id'))
-               ->with('job') // eager load job details
-               ->get();
+      //here also we get details of job becouse we use elquent relationship one to many
+      $application = Application::where('user_id', session('user_id'))->with('job')->get();
 
       //now just show data in view
       Return view('myjob',compact('application'));
-
-
-
-
     }
-}
+

@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Contact extends Model
 {
+        use HasFactory;
+
     /*table structure of contact page
         CREATE TABLE contacts (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -20,5 +22,4 @@ class Contact extends Model
 
 
     protected $table='contacts';
-    use HasFactory;
 }
