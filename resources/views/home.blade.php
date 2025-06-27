@@ -7,9 +7,10 @@
     <div class="container">
         <h3 class="mb-4">Welcome! {{session('user_name')}}</h1>
         <h1 class="mb-4">Find your Dream Job</h1>
-        <form action="" method="GET" class="row justify-content-center">
+        <form action="{{route('search.job')}}" method="post" class="row justify-content-center">
+            @csrf
             <div class="col-md-6 mb-2">
-                <input type="text" name="search" class="form-control" placeholder="Enter job title or company">
+                <input type="text" name="user_search" class="form-control" placeholder="Enter job title or company" required>
             </div>
             <div class="col-md-2 mb-2">
                 <button type="submit" class="btn btn-light w-100 hover-lift">Search</button>

@@ -55,3 +55,6 @@ Route::post('applyjob',[MainController::class,'applyJob'])->name('apply.job');
 
 //here we craete route for myjob page
 Route::get('myjob',[MainController::class,'myjob'])->name('my.job');
+
+//here we create route for search opreation
+Route::post('searchjob',[MainController::class,'searchjob'])->name('search.job');

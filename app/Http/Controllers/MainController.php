@@ -8,6 +8,7 @@ use  App\Models\UserData;
 use  App\Models\Contact;
 use  App\Models\Job;
 use App\Models\Application;
+use Illuminate\Support\Facades\Redis;
 use PhpParser\Node\Stmt\Return_;
 
 class MainController extends Controller
@@ -78,11 +79,6 @@ class MainController extends Controller
     }
 
 
-
-
-
-
-
     //here we handle all backend related to home page
     function home(){
       //here we check user logged in or not 
@@ -105,6 +101,19 @@ class MainController extends Controller
 
     } 
 
+    function searchjob(Request $request){
+
+      if(session('user_id')){
+        $search=$request->user_search;
+       $jobs = Job::where('job_name', 'like', "%$search%")->orWhere('company_name', 'like', "%$search%")->get();
+
+    return view('home', compact('jobs'));
+
+      }else{
+          //here we check user not logged in
+          return redirect()->route('login.form')->with('failed','Please login first');
+      }
+    }
 
     //here we handle all backend related to contact page
     function contact(Request $request){
