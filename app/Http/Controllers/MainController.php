@@ -88,7 +88,7 @@ class MainController extends Controller
        $appliedJobIds = Application::where('user_id', session('user_id'))->pluck('job_id');
 
        //here we fetch only job where user not apply using wherenotin in sql
-       $jobs = Job::whereNotIn('job_id', $appliedJobIds)->get(); 
+       $jobs = Job::whereNotIn('job_id', $appliedJobIds)->paginate(6); 
             
        //data return to view
        return view('home',compact('jobs'));
@@ -103,7 +103,7 @@ class MainController extends Controller
       //get search value from user
        $search=$request->user_search;
        //check search value availble in db or not
-       $jobs = Job::where('job_name', 'like', "%$search%")->orWhere('company_name', 'like', "%$search%")->get();
+       $jobs = Job::where('job_name', 'like', "%$search%")->orWhere('company_name', 'like', "%$search%")->paginate(6);
 
        //return view with data even data is empty
        return view('home', compact('jobs'));
@@ -227,7 +227,7 @@ class MainController extends Controller
         }
       }
 
-    }
+    
 
     //here we handle all backend of appy job feature
     function applyJob(Request $request){
@@ -263,9 +263,9 @@ class MainController extends Controller
 
       //first get all job id from application table where current user applied it
       //here also we get details of job becouse we use elquent relationship one to many
-      $application = Application::where('user_id', session('user_id'))->with('job')->get();
+      $application = Application::where('user_id', session('user_id'))->with('job')->paginate(4);
 
       //now just show data in view
-      Return view('myjob',compact('application'));
+      return view('myjob',compact('application'));
     }
-
+}

@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg " style="background-color: dodgerblue;" >
   <div class="container-fluid">
-    <a class="navbar-brand text-white hover-lift" href="#">Dream-Job</a>
+    <a class="navbar-brand text-white hover-lift" href="{{route('home')}}">Dream-Job</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
       <span class="navbar-toggler-icon"></span>
     </button>

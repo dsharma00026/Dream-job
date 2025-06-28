@@ -23,7 +23,7 @@
                     @csrf
                     <div class="mb-3">
                         <label class="form-label">Email</label>
-                        <input type="text" name="user_email" class="form-control hover-lift">
+                        <input type="text" name="user_email" class="form-control hover-lift" value="{{old('user_email')}}">
                         <span class="text-danger">@error('user_email'){{$message}}@enderror</span> 
 
                     </div>

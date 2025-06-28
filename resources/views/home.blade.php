@@ -33,11 +33,15 @@
                             <p class="card-text"><strong>Company:</strong> {{ $job->company_name}}</p>
                             <p class="card-text"><strong>Location:</strong> {{ $job->job_location}}</p>
                             <p class="card-text"><strong>Salary:</strong> {{ $job->job_salary}}/month</p>
-                            <a href="{{ route('view.job', $job->job_id) }}" class="btn btn-primary hover-lift">View Details</a>
+                            <a href="{{ route('view.job', $job->job_id) }}" class="btn btn-outline-primary hover-lift">View Details</a>
                         </div>
                     </div>
                 </div>
             @endforeach
+            <!-- Pagination Links -->
+            <div class="pagination-wrapper">
+            {{ $jobs->links('pagination::bootstrap-5') }}
+            </div>
         </div>
 
         @if(empty($jobs))

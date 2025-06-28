@@ -37,7 +37,13 @@
                             </div>
                         </div>
                     </div>
-                @endforeach
+                  @endforeach
+            <!-- Pagination Links -->
+           
+        </div>
+         <div class="pagination-wrapper">
+            {{ $application->links('pagination::bootstrap-5') }}
+            </div>
             </div>
         @endif
     </div>
