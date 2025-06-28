@@ -26,7 +26,7 @@
                                 <h3 style="color: #1E90FF;">{{ $app->job->job_name}}</h3>
                                 <p><strong>Company:</strong> {{ $app->job->company_name}}</p>
                                 <p><strong>Location:</strong> {{ $app->job->job_location }}</p>
-                                <p><strong>Salary:</strong> ₹{{ $app->job->job_salary}}/month</p>
+                                <p><strong>Salary:</strong> {{ $app->job->job_salary}}/month</p>
                                 <p><strong>Posted on:</strong> {{ $app->job->created_at->format('d F Y') }}</p>
                                 <p><strong>Applied on:</strong> {{ $app->created_at->format('d F Y') }}</p>
                                  <hr>

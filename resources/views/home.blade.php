@@ -5,7 +5,7 @@
 <!-- 🔴 Hero Section -->
 <section style="background-color: dodgerblue; color: white; padding: 60px 0; margin-top: 0" class="text-center">
     <div class="container">
-        <h3 class="mb-4">Welcome! {{session('user_name')}}</h1>
+        <h3 class="mb-4">Welcome! {{session('user_name')}}</h3>
         <h1 class="mb-4">Find your Dream Job</h1>
         <form action="{{route('search.job')}}" method="post" class="row justify-content-center">
             @csrf
@@ -38,13 +38,14 @@
                     </div>
                 </div>
             @endforeach
-            <!-- Pagination Links -->
+            
+        </div>
+        <!-- Pagination Links -->
             <div class="pagination-wrapper">
             {{ $jobs->links('pagination::bootstrap-5') }}
             </div>
-        </div>
 
-        @if(empty($jobs))
+        @if($jobs->count()==0)
             <p class="text-center text-muted">No jobs available.</p>
         @endif
     </div>
