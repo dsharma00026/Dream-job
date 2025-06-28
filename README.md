@@ -1,66 +1,94 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Dream Job 💼 – Laravel Job Portal
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Dream Job is a Laravel-based job portal built to connect job seekers with companies. It allows users to register, search for jobs, apply with a resume, and manage their profile — all through a clean and responsive interface.
 
-## About Laravel
+🔗 **Live Website:** [https://dreamjob.rf.gd]
+👨‍💻 **Developed By:** [Deepak Sharma](https://github.com/dsharma00026)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 📌 Features
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- 📝 **User Registration & Login** (Custom session-based authentication)
+- 🔍 **Job Search by Title or Company**
+- 📄 **Apply for Jobs** with resume upload (PDF, DOC, DOCX)
+- 📋 **My Jobs** section for users to view their applied jobs
+- 👤 **Profile Management** (Edit user details securely)
+- 📧 **Contact Form** with backend message storage
+- 🔐 **Route Protection** using custom middleware
+- 🌐 **Responsive UI** using Bootstrap 5
+- 📄 **Terms & About** static pages included
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## 🔧 Tech Stack
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+- **Framework:** Laravel 10
+- **Database:** MySQL (via phpMyAdmin / XAMPP)
+- **Frontend:** HTML, CSS, Bootstrap 5, Blade
+- **Backend:** PHP (Laravel), Eloquent ORM
+- **File Storage:** Resume uploads via Laravel’s public disk
+- **Hosting:** [InfinityFree](https://infinityfree.net) (Free Hosting)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-## Laravel Sponsors
+## 📂 Folder Structure Overview
+app/
+├── Http/
+│ └── Controllers/ → MainController.php
+├── Models/ → Job.php, UserData.php, Application.php, Contact.php
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+resources/views/
+├── layouts/ → app.blade.php (layout)
+├── partials/ → header, footer
+├── views/ → home, login, register, profile, view-details, myjob, contact-us, terms, about-us
 
-### Premium Partners
+routes/
+└── web.php
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+public/
+└── resumes/ → (Resume file uploads)
 
-## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+---
 
-## Code of Conduct
+## 🚀 How It Works (Core Logic)
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+- A user registers and logs in using session-based authentication.
+- Once logged in:
+  - The home page shows jobs **not applied to** using:
+    ```php
+    $appliedJobIds = Application::where('user_id', session('user_id'))->pluck('job_id');
+    $jobs = Job::whereNotIn('job_id', $appliedJobIds)->paginate(6);
+    ```
+  - Users can **apply to jobs** with a resume (stored in `/public/resumes`).
+  - Laravel validation ensures security and data integrity throughout the app.
 
-## Security Vulnerabilities
+---
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## 📷 Screenshots
 
-## License
+(Add screenshots here if possible — homepage, apply job form, my jobs page, etc.)
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+---
+
+## 🛡️ Security & Validation
+
+- All forms include CSRF protection.
+- Input fields are validated using Laravel’s validation rules.
+- Routes are grouped under middleware to ensure access control:
+  ```php
+  Route::middleware('checkUser')->group([...]);
+
+
+  🙋‍♂️ Author
+Deepak Sharma
+🎓 Self-taught Laravel Developer
+📍 Jalandhar, Punjab
+📧 dsharma00026@gmail.com
+🌐 GitHub Profile
+
+📣 A Note from the Developer
+This project was built after just 40 days of learning Laravel, and completed in just 3 days. I'm continuing to grow, improve my skills, and looking for my first opportunity in IT.
+
+If you’re a recruiter or company, I’d love to connect with you!
